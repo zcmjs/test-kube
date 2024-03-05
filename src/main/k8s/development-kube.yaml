@@ -1,0 +1,40 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: kube-service
+spec:
+  selector:
+    app: kube
+  ports:
+    - name: http
+      protocol: TCP
+      port: 8080
+      targetPort: http
+  type: NodePort
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kube-deployment
+  labels:
+    app: kube
+spec:
+  replicas: 5
+  selector:
+    matchLabels:
+      app: kube
+  template:
+    metadata:
+      labels:
+        app: kube
+    spec:
+      containers:
+        - name: kube
+          image: kube:0.0.1
+          ports:
+            - containerPort: 8080
+              name: http
+
+#https://docs.openshift.com/container-platform/4.8/rest_api/network_apis/service-core-v1.html#apiv1namespacesnamespaceservicesnameproxypath
+# minikube service kube-service <<---togit
+# http://localhost:8001/api/v1/namespaces/default/services/kube-service/proxy/ -> kubectl proxy

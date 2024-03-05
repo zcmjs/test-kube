@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: kube
+spec:
+  containers:
+    - name: app
+      image: kube:0.0.1
+      ports:
+        - containerPort: 8080
